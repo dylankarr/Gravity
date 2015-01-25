@@ -19,7 +19,12 @@ define ['vector'], (Vector) ->
       return null if deltaTime == 0
 
       @force = new Vector(0, 0)
+      @applyGravity()
 
+      @velocity = @velocity.add @force.multiply(deltaTime)
+      @position = @position.add @velocity.multiply(deltaTime)
+
+    applyGravity: ->
       for particle in Particle.particles
         delta = particle.position.subtract @position
         if delta.magnitude() > @mass + particle.mass
@@ -28,8 +33,6 @@ define ['vector'], (Vector) ->
           y = gForce * Math.sin(delta.angle())
           @force = @force.add new Vector(x, y)
 
-      @velocity = @velocity.add @force.multiply(deltaTime)
-      @position = @position.add @velocity.multiply(deltaTime)
 
     render: (context, scale) ->
       context.fillStyle = '#FFFFFF'
