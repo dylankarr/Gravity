@@ -3,7 +3,7 @@
 
 define ['vector'], (Vector) ->
   class Particle
-    GRAVITATIONAL_CONSTANT: 1
+    GRAVITATIONAL_CONSTANT: 0.001
 
     @particles: []
 
@@ -22,8 +22,8 @@ define ['vector'], (Vector) ->
         delta = particle.position.subtract @position
         if delta.magnitude() > @mass + particle.mass
           gForce = @GRAVITATIONAL_CONSTANT * particle.mass / delta.squareMagnitude()
-          x = gForce * Math.cos(delta.angle()) / deltaTime
-          y = gForce * Math.sin(delta.angle()) / deltaTime
+          x = gForce * Math.cos(delta.angle()) * deltaTime
+          y = gForce * Math.sin(delta.angle()) * deltaTime
           @velocity = new Vector(x + @velocity.x, y + @velocity.y)
 
       @position = @position.add @velocity.multiply(deltaTime)

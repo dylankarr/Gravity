@@ -11,7 +11,7 @@ require.config
 
 require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector) ->
   MAX_UPDATE_RATE = 1
-  PARTICLE_COUNT = 500
+  PARTICLE_COUNT = 100
   MIN_MASS = 10
   MAX_MASS = 1
 
