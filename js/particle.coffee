@@ -10,6 +10,7 @@ define ['vector'], (Vector) ->
     lastUpdateTime: 0
 
     constructor: (@mass, @position, @velocity) ->
+      @acceleration = new Vector(0, 0)
       Particle.particles.push @
 
     update: (time) ->
@@ -17,12 +18,11 @@ define ['vector'], (Vector) ->
       @lastUpdateTime = time
 
       return null if deltaTime == 0
-
-      @force = new Vector(0, 0)
       @calculateGravity()
 
-      @velocity = @velocity.add @force.multiply(deltaTime)
-      @position = @position.add @velocity.multiply(deltaTime)
+      @velocity = @acceleration.multiply(deltaTime).add(@velocity)
+      @position = @velocity.multiply(deltaTime).add(@position)
+      @acceleration = new Vector(0, 0)
 
     calculateGravity: ->
       for particle in Particle.particles
@@ -31,13 +31,13 @@ define ['vector'], (Vector) ->
     applyGravity: (particle) ->
       delta = particle.position.subtract @position
       if delta.magnitude() > @mass + particle.mass
-        gForce = @GRAVITATIONAL_CONSTANT * particle.mass / delta.squareMagnitude()
+        gForce = @GRAVITATIONAL_CONSTANT * particle.mass * @mass / delta.squareMagnitude()
         @applyForce new Vector
           x: gForce * Math.cos(delta.angle())
           y: gForce * Math.sin(delta.angle())
 
     applyForce: (force) ->
-      @force = @force.add force
+      @acceleration = force.multiply(1/@mass).add(@acceleration)
 
     render: (context, scale) ->
       context.fillStyle = '#FFFFFF'
