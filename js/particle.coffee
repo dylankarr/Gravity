@@ -13,10 +13,7 @@ define ['vector'], (Vector) ->
       @acceleration = new Vector(0, 0)
       Particle.particles.push @
 
-    update: (time) ->
-      deltaTime = time - @lastUpdateTime
-      @lastUpdateTime = time
-
+    update: (deltaTime) ->
       return null if deltaTime == 0
 
       for particle in Particle.particles
