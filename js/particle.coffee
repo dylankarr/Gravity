@@ -18,15 +18,13 @@ define ['vector'], (Vector) ->
       @lastUpdateTime = time
 
       return null if deltaTime == 0
-      @calculateGravity()
+
+      for particle in Particle.particles
+        @applyGravity particle
 
       @velocity = @acceleration.multiply(deltaTime).add(@velocity)
       @position = @velocity.multiply(deltaTime).add(@position)
       @acceleration = new Vector(0, 0)
-
-    calculateGravity: ->
-      for particle in Particle.particles
-        @applyGravity particle
 
     applyGravity: (particle) ->
       delta = particle.position.subtract @position
