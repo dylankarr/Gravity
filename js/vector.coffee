@@ -3,7 +3,13 @@
 
 define ->
   class Vector
-    constructor: (@x, @y) ->
+    constructor: ->
+      if typeof arguments[0] == 'number'
+        @x = arguments[0]
+        @y = arguments[1]
+      else
+        @x = arguments[0].x
+        @y = arguments[0].y
 
     add: (vector) ->
       new Vector @x + vector.x, @y + vector.y

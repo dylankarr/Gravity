@@ -19,19 +19,19 @@ define ['vector'], (Vector) ->
       return null if deltaTime == 0
 
       @force = new Vector(0, 0)
-      @applyGravity()
+      @calculateGravity()
 
       @velocity = @velocity.add @force.multiply(deltaTime)
       @position = @position.add @velocity.multiply(deltaTime)
 
-    applyGravity: ->
+    calculateGravity: ->
       for particle in Particle.particles
         delta = particle.position.subtract @position
         if delta.magnitude() > @mass + particle.mass
           gForce = @GRAVITATIONAL_CONSTANT * particle.mass / delta.squareMagnitude()
-          x = gForce * Math.cos(delta.angle())
-          y = gForce * Math.sin(delta.angle())
-          @applyForce new Vector(x, y)
+          @applyForce new Vector
+            x: gForce * Math.cos(delta.angle())
+            y: gForce * Math.sin(delta.angle())
 
     applyForce: (force) ->
       @force = @force.add force
