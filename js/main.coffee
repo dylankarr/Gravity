@@ -17,9 +17,16 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
 
   width = window.innerWidth
   height = window.innerHeight
+  offset = new Vector(0, 0)
 
   $('canvas').attr 'width', width
   $('canvas').attr 'height', height
+
+  $(window).bind 'wheel', (e) ->
+    e.preventDefault()
+    offset = offset.add new Vector
+      x: -e.originalEvent.deltaX
+      y: -e.originalEvent.deltaY
 
   ctx = $('canvas')[0].getContext '2d'
 
@@ -31,11 +38,13 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
 
   renderParticles = (time) ->
     ctx.clearRect 0, 0, width, height
+    ctx.translate offset.x, offset.y
 
     for particle in Particle.particles
       particle.update time
       particle.render ctx
 
+    ctx.translate -offset.x, -offset.y
     window.requestAnimationFrame _.debounce renderParticles, @MAX_UPDATE_RATE, true
 
   renderParticles 0
