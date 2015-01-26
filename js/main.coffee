@@ -16,11 +16,13 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
   MAX_MASS = 10
   PAN_SPEED = 10
   ROTATE_SPEED = 0.01
+  SCALE_SPEED = 1.1
 
   width = window.innerWidth
   height = window.innerHeight
   offset = new Vector(0, 0)
   rotation = 0
+  scale = 1
 
   $('canvas').attr 'width', width
   $('canvas').attr 'height', height
@@ -34,6 +36,10 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
 
   $(window).keydown (e) ->
     e.preventDefault()
+    if e.keyCode == 88
+      scale *= SCALE_SPEED
+    if e.keyCode == 90
+      scale /= SCALE_SPEED
     if e.keyCode == 81
       rotation -= ROTATE_SPEED
     if e.keyCode == 69
@@ -61,6 +67,7 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
     ctx.translate offset.x, offset.y
     ctx.translate width/2, height/2
     ctx.rotate rotation
+    ctx.scale scale, scale
     ctx.translate -width/2, -height/2
 
     for particle in Particle.particles
@@ -68,6 +75,7 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
       particle.render ctx
 
     ctx.translate width/2, height/2
+    ctx.scale 1/scale, 1/scale
     ctx.rotate -rotation
     ctx.translate -width/2, -height/2
     ctx.translate -offset.x, -offset.y
