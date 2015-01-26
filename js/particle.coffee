@@ -31,8 +31,10 @@ define ['vector'], (Vector) ->
           gForce = @GRAVITATIONAL_CONSTANT * particle.mass / delta.squareMagnitude()
           x = gForce * Math.cos(delta.angle())
           y = gForce * Math.sin(delta.angle())
-          @force = @force.add new Vector(x, y)
+          @applyForce new Vector(x, y)
 
+    applyForce: (force) ->
+      @force = @force.add force
 
     render: (context, scale) ->
       context.fillStyle = '#FFFFFF'
