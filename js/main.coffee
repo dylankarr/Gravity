@@ -36,13 +36,16 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
       x: -e.originalEvent.deltaX
       y: -e.originalEvent.deltaY
 
-  $(window).keydown (e) ->
+  $(window).keyup (e) ->
     e.preventDefault()
     if e.keyCode == 32
       if timeScale == 0
         timeScale = 1
       else
         timeScale = 0
+
+  $(window).keydown (e) ->
+    e.preventDefault()
     if e.keyCode == 88
       scale *= SCALE_SPEED
     if e.keyCode == 90
