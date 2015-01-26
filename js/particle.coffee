@@ -26,12 +26,15 @@ define ['vector'], (Vector) ->
 
     calculateGravity: ->
       for particle in Particle.particles
-        delta = particle.position.subtract @position
-        if delta.magnitude() > @mass + particle.mass
-          gForce = @GRAVITATIONAL_CONSTANT * particle.mass / delta.squareMagnitude()
-          @applyForce new Vector
-            x: gForce * Math.cos(delta.angle())
-            y: gForce * Math.sin(delta.angle())
+        @applyGravity particle
+
+    applyGravity: (particle) ->
+      delta = particle.position.subtract @position
+      if delta.magnitude() > @mass + particle.mass
+        gForce = @GRAVITATIONAL_CONSTANT * particle.mass / delta.squareMagnitude()
+        @applyForce new Vector
+          x: gForce * Math.cos(delta.angle())
+          y: gForce * Math.sin(delta.angle())
 
     applyForce: (force) ->
       @force = @force.add force
