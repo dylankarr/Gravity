@@ -17,6 +17,7 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
   PAN_SPEED = 10
   ROTATE_SPEED = 0.01
   SCALE_SPEED = 1.1
+  TIME_SCALE_SPEED = 1.1
 
   width = window.innerWidth
   height = window.innerHeight
@@ -46,6 +47,10 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
 
   $(window).keydown (e) ->
     e.preventDefault()
+    if e.keyCode == 187
+      timeScale *= TIME_SCALE_SPEED
+    if e.keyCode == 189
+      timeScale /= TIME_SCALE_SPEED
     if e.keyCode == 88
       scale *= SCALE_SPEED
     if e.keyCode == 90
