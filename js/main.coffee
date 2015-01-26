@@ -26,6 +26,7 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
   scale = 1
   timeScale = 1
   lastUpdateTime = 0
+  paused = false
 
   $('canvas').attr 'width', width
   $('canvas').attr 'height', height
@@ -40,10 +41,7 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
   $(window).keyup (e) ->
     e.preventDefault()
     if e.keyCode == 32
-      if timeScale == 0
-        timeScale = 1
-      else
-        timeScale = 0
+      paused = !paused
 
   $(window).keydown (e) ->
     e.preventDefault()
@@ -81,6 +79,7 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
     deltaTime = time - lastUpdateTime
     lastUpdateTime = time
     deltaTime *= timeScale
+    deltaTime = 0 if paused
 
     ctx.clearRect 0, 0, width, height
     ctx.translate offset.x, offset.y
