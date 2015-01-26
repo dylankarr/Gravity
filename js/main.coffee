@@ -15,22 +15,29 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
   MIN_MASS = 1
   MAX_MASS = 10
   PAN_SPEED = 10
+  ROTATE_SPEED = 0.01
 
   width = window.innerWidth
   height = window.innerHeight
   offset = new Vector(0, 0)
+  rotation = 0
 
   $('canvas').attr 'width', width
   $('canvas').attr 'height', height
 
   $(window).bind 'wheel', (e) ->
     e.preventDefault()
+    console.log e.originalEvent.deltaZ
     offset = offset.add new Vector
       x: -e.originalEvent.deltaX
       y: -e.originalEvent.deltaY
 
   $(window).keydown (e) ->
     e.preventDefault()
+    if e.keyCode == 81
+      rotation -= ROTATE_SPEED
+    if e.keyCode == 69
+      rotation += ROTATE_SPEED
     if e.keyCode == 37 || e.keyCode == 65
       offset = offset.add new Vector(PAN_SPEED, 0)
     if e.keyCode == 38 || e.keyCode == 87
@@ -39,6 +46,7 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
       offset = offset.add new Vector(-PAN_SPEED, 0)
     if e.keyCode == 40 || e.keyCode == 83
       offset = offset.add new Vector(0, -PAN_SPEED)
+    rotation = ((rotation%(Math.PI*2))+(Math.PI*2))%(Math.PI*2)
 
   ctx = $('canvas')[0].getContext '2d'
 
@@ -51,11 +59,17 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
   renderParticles = (time) ->
     ctx.clearRect 0, 0, width, height
     ctx.translate offset.x, offset.y
+    ctx.translate width/2, height/2
+    ctx.rotate rotation
+    ctx.translate -width/2, -height/2
 
     for particle in Particle.particles
       particle.update time
       particle.render ctx
 
+    ctx.translate width/2, height/2
+    ctx.rotate -rotation
+    ctx.translate -width/2, -height/2
     ctx.translate -offset.x, -offset.y
     window.requestAnimationFrame _.debounce renderParticles, @MAX_UPDATE_RATE, true
 
