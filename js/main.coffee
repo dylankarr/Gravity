@@ -23,6 +23,8 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
   offset = new Vector(0, 0)
   rotation = 0
   scale = 1
+  timeScale = 1
+  lastUpdateTime = 0
 
   $('canvas').attr 'width', width
   $('canvas').attr 'height', height
@@ -36,6 +38,11 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
 
   $(window).keydown (e) ->
     e.preventDefault()
+    if e.keyCode == 32
+      if timeScale == 0
+        timeScale = 1
+      else
+        timeScale = 0
     if e.keyCode == 88
       scale *= SCALE_SPEED
     if e.keyCode == 90
@@ -63,6 +70,10 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
     new Particle mass, position, velocity
 
   renderParticles = (time) ->
+    deltaTime = time - lastUpdateTime
+    lastUpdateTime = time
+    deltaTime *= timeScale
+
     ctx.clearRect 0, 0, width, height
     ctx.translate offset.x, offset.y
     ctx.translate width/2, height/2
@@ -71,7 +82,7 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
     ctx.translate -width/2, -height/2
 
     for particle in Particle.particles
-      particle.update time
+      particle.update deltaTime
       particle.render ctx
 
     ctx.translate width/2, height/2
