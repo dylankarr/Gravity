@@ -12,8 +12,9 @@ require.config
 require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector) ->
   MAX_UPDATE_RATE = 1
   PARTICLE_COUNT = 100
-  MIN_MASS = 10
-  MAX_MASS = 1
+  MIN_MASS = 1
+  MAX_MASS = 10
+  PAN_SPEED = 10
 
   width = window.innerWidth
   height = window.innerHeight
@@ -27,6 +28,17 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
     offset = offset.add new Vector
       x: -e.originalEvent.deltaX
       y: -e.originalEvent.deltaY
+
+  $(window).keydown (e) ->
+    e.preventDefault()
+    if e.keyCode == 37 || e.keyCode == 65
+      offset = offset.add new Vector(PAN_SPEED, 0)
+    if e.keyCode == 38 || e.keyCode == 87
+      offset = offset.add new Vector(0, PAN_SPEED)
+    if e.keyCode == 39 || e.keyCode == 68
+      offset = offset.add new Vector(-PAN_SPEED, 0)
+    if e.keyCode == 40 || e.keyCode == 83
+      offset = offset.add new Vector(0, -PAN_SPEED)
 
   ctx = $('canvas')[0].getContext '2d'
 
