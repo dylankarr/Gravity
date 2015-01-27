@@ -9,7 +9,7 @@ require.config
     jquery: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min'
     underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min'
 
-require ['jquery', 'underscore', 'particle', 'vector', 'keyboard'], ($, _, Particle, Vector, Keyboard) ->
+require ['jquery', 'underscore', 'particle', 'vector', 'keyboard', 'wheel'], ($, _, Particle, Vector, Keyboard, Wheel) ->
   MAX_UPDATE_RATE = 0
   PARTICLE_COUNT = 100
   MIN_MASS = 1
@@ -30,12 +30,6 @@ require ['jquery', 'underscore', 'particle', 'vector', 'keyboard'], ($, _, Parti
 
   $('canvas').attr 'width', width
   $('canvas').attr 'height', height
-
-  $(window).bind 'wheel', (e) ->
-    e.preventDefault()
-    offset = offset.add new Vector
-      x: -e.originalEvent.deltaX
-      y: -e.originalEvent.deltaY
 
   $(window).keyup (e) ->
     e.preventDefault()
@@ -63,6 +57,7 @@ require ['jquery', 'underscore', 'particle', 'vector', 'keyboard'], ($, _, Parti
     offset = offset.add new Vector(0, PAN_SPEED * deltaTime) if Keyboard.isDown 87
     offset = offset.add new Vector(-PAN_SPEED * deltaTime, 0) if Keyboard.isDown 68
     offset = offset.add new Vector(0, -PAN_SPEED * deltaTime) if Keyboard.isDown 83
+    offset = Wheel.getOffset().multiply(deltaTime).add(offset)
     timeScale += TIME_SCALE_SPEED * deltaTime if Keyboard.isDown 187
     timeScale -= TIME_SCALE_SPEED * deltaTime if Keyboard.isDown 189
 
