@@ -43,19 +43,13 @@ require ['jquery', 'underscore', 'particle', 'vector', 'camera'], ($, _, Particl
     lastUpdateTime = time
 
     camera.update deltaTime
-
-    ctx.clearRect 0, 0, width, height
-    ctx.translate width/2, height/2
-    ctx.translate camera.offset.x, camera.offset.y
-    ctx.rotate camera.rotation
-    ctx.scale camera.scale, camera.scale
-    ctx.translate -width/2, -height/2
+    camera.render ctx, width, height
 
     for particle in Particle.particles
       particle.update deltaTime * camera.timeScale unless paused
       particle.render ctx
 
-    ctx.setTransform 1, 0, 0, 1, 0, 0
+    camera.reset ctx
     window.requestAnimationFrame _.debounce renderParticles, @MAX_UPDATE_RATE, true
 
   renderParticles 0

@@ -26,3 +26,14 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
       @offset = @offset.add new Vector(-@PAN_SPEED * deltaTime, 0) if Keyboard.isDown 68
       @offset = @offset.add new Vector(0, -@PAN_SPEED * deltaTime) if Keyboard.isDown 83
       @offset = Wheel.getOffset().multiply(deltaTime).add(@offset)
+
+    render: (context, width, height) ->
+      context.clearRect 0, 0, width, height
+      context.translate width/2, height/2
+      context.translate @offset.x, @offset.y
+      context.rotate @rotation
+      context.scale @scale, @scale
+      context.translate -width/2, -height/2
+
+    reset: (context) ->
+      context.setTransform 1, 0, 0, 1, 0, 0
