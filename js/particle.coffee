@@ -3,6 +3,8 @@
 
 define ['vector'], (Vector) ->
   class Particle
+    MIN_MASS: 1
+    MAX_MASS: 10
     GRAVITATIONAL_CONSTANT: 0.001
 
     @particles: []
@@ -10,7 +12,16 @@ define ['vector'], (Vector) ->
     lastUpdateTime: 0
 
     constructor: (@mass, @position, @velocity) ->
+      angle = Math.random() * Math.PI * 2
+      radius = Math.random() * Math.random() * 500
+      x = Math.sin(angle) * radius
+      y = Math.cos(angle) * radius
+
+      @mass ||= Math.random() * (@MAX_MASS - @MIN_MASS) + @MIN_MASS
+      @position ||= new Vector(x, y)
+      @velocity ||= new Vector(0, 0)
       @acceleration = new Vector(0, 0)
+
       Particle.particles.push @
 
     update: (deltaTime) ->
