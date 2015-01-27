@@ -9,13 +9,13 @@ require.config
     jquery: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min'
     underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min'
 
-require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector) ->
+require ['jquery', 'underscore', 'particle', 'vector', 'keyboard'], ($, _, Particle, Vector, Keyboard) ->
   MAX_UPDATE_RATE = 0
   PARTICLE_COUNT = 100
   MIN_MASS = 1
   MAX_MASS = 10
   PAN_SPEED = 10
-  ROTATE_SPEED = 0.01
+  ROTATE_SPEED = 0.001
   SCALE_SPEED = 1.1
   TIME_SCALE_SPEED = 1.1
 
@@ -53,10 +53,6 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
       scale *= SCALE_SPEED
     if e.keyCode == 90
       scale /= SCALE_SPEED
-    if e.keyCode == 81
-      rotation -= ROTATE_SPEED
-    if e.keyCode == 69
-      rotation += ROTATE_SPEED
     if e.keyCode == 37 || e.keyCode == 65
       offset = offset.add new Vector(PAN_SPEED, 0)
     if e.keyCode == 38 || e.keyCode == 87
@@ -79,7 +75,9 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
     deltaTime = time - lastUpdateTime
     lastUpdateTime = time
     deltaTime *= timeScale
-    deltaTime = 0 if paused
+
+    rotation += ROTATE_SPEED * deltaTime if Keyboard.isDown 69
+    rotation -= ROTATE_SPEED * deltaTime if Keyboard.isDown 81
 
     ctx.clearRect 0, 0, width, height
     ctx.translate width/2, height/2
@@ -89,7 +87,7 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
     ctx.translate -width/2, -height/2
 
     for particle in Particle.particles
-      particle.update deltaTime
+      particle.update deltaTime unless paused
       particle.render ctx
 
     ctx.setTransform 1, 0, 0, 1, 0, 0
