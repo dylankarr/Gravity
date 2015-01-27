@@ -34,7 +34,7 @@ define ['vector'], (Vector) ->
     applyForce: (force) ->
       @acceleration = force.multiply(1/@mass).add(@acceleration)
 
-    render: (context, scale) ->
+    render: (context) ->
       context.fillStyle = '#FFFFFF'
       context.beginPath()
       context.arc @position.x, @position.y, @mass, 0, Math.PI*2
