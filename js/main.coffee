@@ -16,7 +16,7 @@ require ['jquery', 'underscore', 'particle', 'vector', 'keyboard'], ($, _, Parti
   MAX_MASS = 10
   PAN_SPEED = 10
   ROTATE_SPEED = 0.001
-  SCALE_SPEED = 1.1
+  SCALE_SPEED = 0.001
   TIME_SCALE_SPEED = 1.1
 
   width = window.innerWidth
@@ -49,10 +49,6 @@ require ['jquery', 'underscore', 'particle', 'vector', 'keyboard'], ($, _, Parti
       timeScale *= TIME_SCALE_SPEED
     if e.keyCode == 189
       timeScale /= TIME_SCALE_SPEED
-    if e.keyCode == 88
-      scale *= SCALE_SPEED
-    if e.keyCode == 90
-      scale /= SCALE_SPEED
     if e.keyCode == 37 || e.keyCode == 65
       offset = offset.add new Vector(PAN_SPEED, 0)
     if e.keyCode == 38 || e.keyCode == 87
@@ -78,6 +74,8 @@ require ['jquery', 'underscore', 'particle', 'vector', 'keyboard'], ($, _, Parti
 
     rotation += ROTATE_SPEED * deltaTime if Keyboard.isDown 69
     rotation -= ROTATE_SPEED * deltaTime if Keyboard.isDown 81
+    scale *= 1 + SCALE_SPEED * deltaTime if Keyboard.isDown 88
+    scale /= 1 + SCALE_SPEED * deltaTime if Keyboard.isDown 90
 
     ctx.clearRect 0, 0, width, height
     ctx.translate width/2, height/2
