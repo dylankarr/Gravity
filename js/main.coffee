@@ -92,11 +92,7 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
       particle.update deltaTime
       particle.render ctx
 
-    ctx.translate width/2, height/2
-    ctx.scale 1/scale, 1/scale
-    ctx.rotate -rotation
-    ctx.translate -width/2, -height/2
-    ctx.translate -offset.x, -offset.y
+    ctx.setTransform 1, 0, 0, 1, 0, 0
     window.requestAnimationFrame _.debounce renderParticles, @MAX_UPDATE_RATE, true
 
   renderParticles 0
