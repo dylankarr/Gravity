@@ -6,9 +6,11 @@ define ['jquery'], ($) ->
     @keys = {}
 
     @pressKey: (e) ->
+      e.preventDefault()
       Keyboard.keys[e.originalEvent.keyCode] = true
 
     @liftKey: (e) ->
+      e.preventDefault()
       delete Keyboard.keys[e.originalEvent.keyCode]
 
     @isDown: (keyCode) ->
