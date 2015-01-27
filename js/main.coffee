@@ -10,7 +10,7 @@ require.config
     underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min'
 
 require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector) ->
-  MAX_UPDATE_RATE = 1
+  MAX_UPDATE_RATE = 0
   PARTICLE_COUNT = 100
   MIN_MASS = 1
   MAX_MASS = 10
@@ -82,8 +82,8 @@ require ['jquery', 'underscore', 'particle', 'vector'], ($, _, Particle, Vector)
     deltaTime = 0 if paused
 
     ctx.clearRect 0, 0, width, height
-    ctx.translate offset.x, offset.y
     ctx.translate width/2, height/2
+    ctx.translate offset.x, offset.y
     ctx.rotate rotation
     ctx.scale scale, scale
     ctx.translate -width/2, -height/2
