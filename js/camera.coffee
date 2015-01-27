@@ -30,10 +30,10 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
     render: (context, width, height) ->
       context.clearRect 0, 0, width, height
       context.translate width/2, height/2
-      context.translate @offset.x, @offset.y
       context.rotate @rotation
       context.scale @scale, @scale
       context.translate -width/2, -height/2
+      context.translate @offset.x, @offset.y
 
     reset: (context) ->
       context.setTransform 1, 0, 0, 1, 0, 0
