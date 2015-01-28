@@ -30,7 +30,6 @@ require ['jquery', 'underscore', 'particle', 'vector', 'camera', 'time'], ($, _,
       particle.update Time.deltaTime()
       particle.render ctx
 
-    camera.reset ctx
     window.requestAnimationFrame _.debounce renderParticles, MAX_UPDATE_RATE, true
 
   renderParticles 0

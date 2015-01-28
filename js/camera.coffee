@@ -43,11 +43,9 @@ define ['jquery', 'vector', 'keyboard', 'wheel'], ($, Vector, Keyboard, Wheel) -
       $('canvas')[0].width = width
       $('canvas')[0].height = height
 
+      context.setTransform 1, 0, 0, 1, 0, 0
       context.clearRect 0, 0, width, height
       context.translate width/2, height/2
       context.rotate @rotation
       context.scale @scale, @scale
       context.translate @position.x, @position.y
-
-    reset: (context) ->
-      context.setTransform 1, 0, 0, 1, 0, 0
