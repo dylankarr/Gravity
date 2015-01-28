@@ -6,22 +6,15 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
     PAN_SPEED: 1
     ROTATE_SPEED: 0.001
     ZOOM_SPEED: 0.001
-    TIME_SCALE_SPEED: 0.001
 
     position: new Vector(0, 0)
     rotation: 0
     scale: 1
-    timeScale: 1
 
     update: (deltaTime) ->
-      @_updateTimeScale(deltaTime)
       @_updateRotation(deltaTime)
       @_updateScale(deltaTime)
       @_updatePosition(deltaTime)
-
-    _updateTimeScale: (deltaTime) ->
-      @timeScale += @TIME_SCALE_SPEED * deltaTime if Keyboard.isDown 187
-      @timeScale -= @TIME_SCALE_SPEED * deltaTime if Keyboard.isDown 189
 
     _updateRotation: (deltaTime) ->
       @rotation += @ROTATE_SPEED * deltaTime if Keyboard.isDown 69
