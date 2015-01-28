@@ -9,11 +9,11 @@ require.config
     jquery: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min'
     underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min'
 
-require ['jquery', 'underscore', 'particle', 'vector', 'camera', 'time'], ($, _, Particle, Vector, Camera, Time) ->
+require ['underscore', 'particle', 'vector', 'camera', 'time'], (_, Particle, Vector, Camera, Time) ->
   MAX_UPDATE_RATE = 0
   PARTICLE_COUNT = 100
 
-  canvas = $('canvas')[0]
+  canvas = document.getElementsByTagName('canvas')[0]
   context = canvas.getContext '2d'
 
   for i in [1..PARTICLE_COUNT]
