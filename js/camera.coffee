@@ -14,17 +14,33 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
     timeScale: 1
 
     update: (deltaTime) ->
+      @_updateTimeScale(deltaTime)
+      @_updateRotation(deltaTime)
+      @_updateScale(deltaTime)
+      @_updatePosition(deltaTime)
+
+    _updateTimeScale: (deltaTime) ->
       @timeScale += @TIME_SCALE_SPEED * deltaTime if Keyboard.isDown 187
       @timeScale -= @TIME_SCALE_SPEED * deltaTime if Keyboard.isDown 189
+
+    _updateRotation: (deltaTime) ->
       @rotation += @ROTATE_SPEED * deltaTime if Keyboard.isDown 69
       @rotation -= @ROTATE_SPEED * deltaTime if Keyboard.isDown 81
       @rotation = ((@rotation%(Math.PI*2))+(Math.PI*2))%(Math.PI*2)
+
+    _updateScale: (deltaTime) ->
       @scale *= 1 + @ZOOM_SPEED * deltaTime if Keyboard.isDown 88
       @scale *= 1 - @ZOOM_SPEED * deltaTime if Keyboard.isDown 90
-      @offset = @offset.add new Vector(@PAN_SPEED * deltaTime * Math.cos(@rotation), -@PAN_SPEED * deltaTime * Math.sin(@rotation)) if Keyboard.isDown 65
-      @offset = @offset.add new Vector(@PAN_SPEED * deltaTime * Math.sin(@rotation), @PAN_SPEED * deltaTime * Math.cos(@rotation)) if Keyboard.isDown 87
-      @offset = @offset.add new Vector(-@PAN_SPEED * deltaTime * Math.cos(@rotation), @PAN_SPEED * deltaTime * Math.sin(@rotation)) if Keyboard.isDown 68
-      @offset = @offset.add new Vector(-@PAN_SPEED * deltaTime * Math.sin(@rotation), -@PAN_SPEED * deltaTime * Math.cos(@rotation)) if Keyboard.isDown 83
+
+    _updatePosition: (deltaTime) ->
+      cos = @PAN_SPEED * deltaTime * Math.cos(@rotation)
+      sin = @PAN_SPEED * deltaTime * Math.sin(@rotation)
+
+      @offset = @offset.add new Vector(cos, -sin) if Keyboard.isDown 65
+      @offset = @offset.add new Vector(sin, cos) if Keyboard.isDown 87
+      @offset = @offset.add new Vector(-cos, sin) if Keyboard.isDown 68
+      @offset = @offset.add new Vector(-sin, -cos) if Keyboard.isDown 83
+
       @offset = Wheel.getOffset().multiply(deltaTime).add(@offset)
 
     render: (context, width, height) ->
