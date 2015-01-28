@@ -13,7 +13,8 @@ require ['jquery', 'underscore', 'particle', 'vector', 'camera', 'time'], ($, _,
   MAX_UPDATE_RATE = 0
   PARTICLE_COUNT = 100
 
-  ctx = $('canvas')[0].getContext '2d'
+  canvas = $('canvas')[0]
+  context = canvas.getContext '2d'
 
   for i in [1..PARTICLE_COUNT]
     new Particle
@@ -24,11 +25,11 @@ require ['jquery', 'underscore', 'particle', 'vector', 'camera', 'time'], ($, _,
     Time.update time
 
     camera.update Time.rawDeltaTime()
-    camera.render ctx
+    camera.render context, canvas
 
     for particle in Particle.particles
       particle.update Time.deltaTime()
-      particle.render ctx
+      particle.render context
 
     window.requestAnimationFrame _.debounce renderParticles, MAX_UPDATE_RATE, true
 
