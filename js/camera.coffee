@@ -36,12 +36,16 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
 
       @position = Wheel.getOffset().multiply(deltaTime).add(@position)
 
-    render: (context, width, height) ->
+    render: (context, canvas) ->
+      width = window.innerWidth
+      height = window.innerHeight
+
+      canvas.width = width
+      canvas.height = height
+
+      context.setTransform 1, 0, 0, 1, 0, 0
       context.clearRect 0, 0, width, height
       context.translate width/2, height/2
       context.rotate @rotation
       context.scale @scale, @scale
       context.translate @position.x, @position.y
-
-    reset: (context) ->
-      context.setTransform 1, 0, 0, 1, 0, 0
