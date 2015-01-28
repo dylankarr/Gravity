@@ -8,7 +8,7 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
     ZOOM_SPEED: 0.001
     TIME_SCALE_SPEED: 0.001
 
-    offset: new Vector(0, 0)
+    position: new Vector(0, 0)
     rotation: 0
     scale: 1
     timeScale: 1
@@ -36,19 +36,19 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
       cos = @PAN_SPEED * deltaTime * Math.cos(@rotation)
       sin = @PAN_SPEED * deltaTime * Math.sin(@rotation)
 
-      @offset = @offset.add new Vector(cos, -sin) if Keyboard.isDown 65
-      @offset = @offset.add new Vector(sin, cos) if Keyboard.isDown 87
-      @offset = @offset.add new Vector(-cos, sin) if Keyboard.isDown 68
-      @offset = @offset.add new Vector(-sin, -cos) if Keyboard.isDown 83
+      @position = @position.add new Vector(cos, -sin) if Keyboard.isDown 65
+      @position = @position.add new Vector(sin, cos) if Keyboard.isDown 87
+      @position = @position.add new Vector(-cos, sin) if Keyboard.isDown 68
+      @position = @position.add new Vector(-sin, -cos) if Keyboard.isDown 83
 
-      @offset = Wheel.getOffset().multiply(deltaTime).add(@offset)
+      @position = Wheel.getOffset().multiply(deltaTime).add(@position)
 
     render: (context, width, height) ->
       context.clearRect 0, 0, width, height
       context.translate width/2, height/2
       context.rotate @rotation
       context.scale @scale, @scale
-      context.translate @offset.x, @offset.y
+      context.translate @position.x, @position.y
 
     reset: (context) ->
       context.setTransform 1, 0, 0, 1, 0, 0
