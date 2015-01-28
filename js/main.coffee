@@ -13,12 +13,6 @@ require ['jquery', 'underscore', 'particle', 'vector', 'camera', 'time'], ($, _,
   MAX_UPDATE_RATE = 0
   PARTICLE_COUNT = 100
 
-  width = window.innerWidth
-  height = window.innerHeight
-
-  $('canvas').attr 'width', width
-  $('canvas').attr 'height', height
-
   ctx = $('canvas')[0].getContext '2d'
 
   for i in [1..PARTICLE_COUNT]
@@ -30,7 +24,7 @@ require ['jquery', 'underscore', 'particle', 'vector', 'camera', 'time'], ($, _,
     Time.update time
 
     camera.update Time.rawDeltaTime()
-    camera.render ctx, width, height
+    camera.render ctx
 
     for particle in Particle.particles
       particle.update Time.deltaTime()

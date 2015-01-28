@@ -1,7 +1,7 @@
 ---
 ---
 
-define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
+define ['jquery', 'vector', 'keyboard', 'wheel'], ($, Vector, Keyboard, Wheel) ->
   class Camera
     PAN_SPEED: 1
     ROTATE_SPEED: 0.001
@@ -36,7 +36,13 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
 
       @position = Wheel.getOffset().multiply(deltaTime).add(@position)
 
-    render: (context, width, height) ->
+    render: (context) ->
+      width = window.innerWidth
+      height = window.innerHeight
+
+      $('canvas')[0].width = width
+      $('canvas')[0].height = height
+
       context.clearRect 0, 0, width, height
       context.translate width/2, height/2
       context.rotate @rotation
