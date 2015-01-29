@@ -26,8 +26,8 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
       @scale *= 1 - @ZOOM_SPEED * deltaTime if Keyboard.isDown 90
 
     _updatePosition: (deltaTime) ->
-      cos = @PAN_SPEED * deltaTime * Math.cos(@rotation)
-      sin = @PAN_SPEED * deltaTime * Math.sin(@rotation)
+      cos = @PAN_SPEED * deltaTime * Math.cos(@rotation) / @scale
+      sin = @PAN_SPEED * deltaTime * Math.sin(@rotation) / @scale
 
       @position = @position.add new Vector(cos, -sin) if Keyboard.isDown 65
       @position = @position.add new Vector(sin, cos) if Keyboard.isDown 87
@@ -43,8 +43,6 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
       canvas.width = width
       canvas.height = height
 
-      context.setTransform 1, 0, 0, 1, 0, 0
-      context.clearRect 0, 0, width, height
       context.translate width/2, height/2
       context.rotate @rotation
       context.scale @scale, @scale
