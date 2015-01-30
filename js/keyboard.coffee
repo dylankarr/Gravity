@@ -1,22 +1,22 @@
 ---
 ---
 
-define ['jquery'], ($) ->
+define ->
   class Keyboard
     @keys = {}
 
     @pressKey: (e) ->
       e.preventDefault()
-      Keyboard.keys[e.originalEvent.keyCode] = true
+      Keyboard.keys[e.keyCode] = true
 
     @liftKey: (e) ->
       e.preventDefault()
-      delete Keyboard.keys[e.originalEvent.keyCode]
+      delete Keyboard.keys[e.keyCode]
 
     @isDown: (keyCode) ->
       Keyboard.keys[keyCode] == true
 
-  $(window).keydown Keyboard.pressKey
-  $(window).keyup Keyboard.liftKey
+  window.addEventListener 'keydown', Keyboard.pressKey
+  window.addEventListener 'keyup', Keyboard.liftKey
 
   Keyboard
