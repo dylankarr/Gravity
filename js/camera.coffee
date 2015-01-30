@@ -34,7 +34,10 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
       @position = @position.add new Vector(-cos, sin) if Keyboard.isDown 68
       @position = @position.add new Vector(-sin, -cos) if Keyboard.isDown 83
 
-      @position = Wheel.getOffset().multiply(deltaTime).add(@position)
+      wheelOffset = Wheel.getOffset().multiply(deltaTime / @scale)
+      x = wheelOffset.x * Math.cos(@rotation) + wheelOffset.y * Math.sin(@rotation)
+      y = - wheelOffset.x * Math.sin(@rotation) + wheelOffset.y * Math.cos(@rotation)
+      @position = @position.add new Vector(x, y)
 
     render: (context, canvas) ->
       width = window.innerWidth
