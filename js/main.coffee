@@ -1,11 +1,6 @@
 ---
 ---
 
-require.config
-  paths:
-    jquery: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min'
-    underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min'
-
 require ['particle', 'vector', 'camera', 'time'], (Particle, Vector, Camera, Time) ->
   PARTICLE_COUNT = 100
 
