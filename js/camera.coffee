@@ -12,9 +12,9 @@ define ['vector', 'keyboard', 'wheel'], (Vector, Keyboard, Wheel) ->
     scale: 1
 
     update: (deltaTime) ->
-      @_updateRotation(deltaTime)
       @_updateScale(deltaTime)
       @_updatePosition(deltaTime)
+      @_updateRotation(deltaTime)
 
     _updateRotation: (deltaTime) ->
       @rotation += @ROTATE_SPEED * deltaTime if Keyboard.isDown 69
