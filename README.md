@@ -30,5 +30,5 @@ gravity simulation. Feel free to do what you want with it.
 
 ## License
 
-Copyright 2015 Dylan Karr. Licensed under the standard [MIT
+Copyright 2015 Rose Karr. Licensed under the standard [MIT
 License](http://dylankarr.github.io/Gravity/).
